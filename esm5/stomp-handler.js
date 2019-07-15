@@ -213,7 +213,6 @@ var StompHandler = /** @class */ (function () {
         }
     };
     StompHandler.prototype.dispose = function () {
-        var _this = this;
         if (this.connected) {
             try {
                 // clone before updating
@@ -221,12 +220,8 @@ var StompHandler = /** @class */ (function () {
                 if (!disconnectHeaders.receipt) {
                     disconnectHeaders.receipt = "close-" + this._counter++;
                 }
-                this.watchForReceipt(disconnectHeaders.receipt, function (frame) {
-                    _this._webSocket.close();
-                    _this._cleanUp();
-                    _this.onDisconnect(frame);
-                });
-                this._transmit({ command: 'DISCONNECT', headers: disconnectHeaders });
+                this._webSocket.close();
+                this._cleanUp();
             }
             catch (error) {
                 this.debug("Ignoring error during disconnect " + error);

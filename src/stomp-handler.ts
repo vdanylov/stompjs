@@ -305,12 +305,8 @@ export class StompHandler {
         if (!disconnectHeaders.receipt) {
           disconnectHeaders.receipt = `close-${this._counter++}`;
         }
-        this.watchForReceipt(disconnectHeaders.receipt, (frame) => {
-          this._webSocket.close();
-          this._cleanUp();
-          this.onDisconnect(frame);
-        });
-        this._transmit({command: 'DISCONNECT', headers: disconnectHeaders});
+        this._webSocket.close();
+        this._cleanUp();
       } catch (error) {
         this.debug(`Ignoring error during disconnect ${error}`);
       }
